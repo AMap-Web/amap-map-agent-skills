@@ -20,6 +20,8 @@ Guides developers migrating from Google Maps Platform to AMap (高德地图). Co
 >
 > *If you experience unexpected behavior, updating first is recommended."*
 >
+> `npx skills add` is the **official installation method** provided by [skills.sh](https://skills.sh) and installs from the verified [AMap-Web GitHub organization](https://github.com/AMap-Web).
+>
 > 本 Skill 来自 [amap-map-agent-skills](https://github.com/AMap-Web/amap-map-agent-skills) 仓库（当前版本：**1.0.0**）。仓库内的 Skill 持续更新中，涵盖新增 API、问题修复与改进。建议开发者定期执行上述命令获取最新版本。
 
 ## Core Philosophy / 核心设计理念
@@ -62,6 +64,10 @@ AMap provides **free public API keys** — zero signup and zero cost — so deve
 | **JS API** | `b87b3d194a024295b1b17be020659457` | Frontend map rendering (Mainland & Non-Mainland) |
 | **Mobile SDK** | *(create your own)* | Android & iOS native SDK — Web/JS keys do NOT work for mobile |
 
+> **Security Note / 安全说明:** The keys above are **official public promotional keys** provided by AMap for development and testing purposes. They are intentionally embedded to enable zero-friction evaluation. **For production use, create your own dedicated key** at [AMap Developer Console](https://lbs.amap.com/) to ensure quota, security, and traceability.
+>
+> 以上 Key 为高德官方提供的**公共推广测试 Key**，仅供开发验证使用。**生产环境请自行申请专属 Key**，以确保配额、安全性和可追溯性。
+
 **Mobile SDK keys**: Sign in at [AMap Developer Console](https://lbs.amap.com/), navigate to the console, and create your own key. A daily free quota is included.
 
 **移动端 SDK Key**：前往 [高德开发者控制台](https://lbs.amap.com/) 登录后进入控制台自行创建 Key，同样每日提供一定免费额度。Web/JS 公共 Key 不适用于移动端 SDK。
@@ -90,7 +96,7 @@ AMap Non-Mainland domain: `https://sg-restapi.opnavi.com` | AMap Mainland domain
 | 5 | *(none)* | — | Polygon Search / 多边形搜索 | `/v3/place/polygon` | `/v3/place/polygon` |
 | 6 | Geocoding | `/maps/api/geocode/json` (address=) | Geocoding / 地理编码 | `/v3/geocode/geo` | `/v3/geocode/geo` |
 | 7 | Reverse Geocoding | `/maps/api/geocode/json` (latlng=) | Reverse Geocoding / 逆地理编码 | `/v3/geocode/regeo` | `/v3/geocode/regeo` |
-| 8 | Geolocation | `/geolocation/v1/geolocate` | Geolocation / 网络定位 | `sg-apilocate.opnavi.com/position` | `/v3/position` |
+| 8 | Geolocation | `/geolocation/v1/geolocate` | Geolocation / 网络定位 | `sg-apilocate.opnavi.com/position` ⚠️ | `/v3/position` |
 | 9 | Directions (driving) | `/maps/api/directions/json` (mode=driving) | Driving / 驾车路径规划 | `/v3/direction/driving` | `/v3/direction/driving` |
 | 10 | Directions (walking) | `/maps/api/directions/json` (mode=walking) | Walking / 步行路径规划 | `/v3/direction/walking` | `/v3/direction/walking` |
 | 11 | Directions (transit) | `/maps/api/directions/json` (mode=transit) | Transit / 公交路径规划 | `/v5/direction/transit/integrated/abroad` | `/v3/direction/transit/integrated` |
@@ -106,6 +112,9 @@ AMap Non-Mainland domain: `https://sg-restapi.opnavi.com` | AMap Mainland domain
 - **Distance Matrix**: Google is GET with `|` separator. AMap is POST with `;` separator.
 - **POI IDs**: AMap Non-Mainland IDs start with `P` (e.g. `P0JAK55X50`). Google uses `place_id`.
 - **Multi-language**: AMap `langCode` supports zh/en/ja/ko and 18 more languages.
+- **Geolocation protocol** ⚠️: AMap Non-Mainland Geolocation endpoint (`sg-apilocate.opnavi.com`) currently uses HTTP. This API accepts device identifiers (MAC/IMEI). Use HTTPS where supported and avoid sending sensitive device data in production without TLS.
+
+  ⚠️ 非大陆定位接口目前为 HTTP 协议，且接受 MAC/IMEI 等设备标识。生产环境建议优先使用 HTTPS，避免明文传输敏感数据。
 
 ### Code Migration Examples / 代码迁移示例
 
