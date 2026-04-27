@@ -200,7 +200,7 @@ AMap-specific. `polygon` param: `lng,lat|lng,lat|...` (first & last must match, 
 ## 8. Geolocation → 网络定位
 
 **Google:** `POST https://www.googleapis.com/geolocation/v1/geolocate`
-**AMap Non-Mainland:** `GET http://sg-apilocate.opnavi.com/position`
+**AMap Non-Mainland:** `GET http://sg-apilocate.opnavi.com/position` ⚠️ HTTP only — use HTTPS in production where supported / 生产环境建议使用 HTTPS
 **AMap Mainland:** `GET https://restapi.amap.com/v3/position`
 
 | Google Param | AMap Param | Notes |
